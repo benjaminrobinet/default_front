@@ -1,0 +1,117 @@
+@import "var";
+
+body{
+  background-color: $bgcolor;
+  color: #fff;
+}
+
+*{
+  box-sizing: border-box;
+  user-select: none;
+}
+
+form{
+  font-size: 24px;
+  font-family: Roboto, sans-serif;
+
+  input[type=checkbox]{
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  input[type=checkbox]:checked + label.group{
+    span.checkbox::after{
+      content: ' ';
+      position: absolute;
+      top: 0.3em;
+      left: 0.1em;
+      border-right: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      transform: rotate(45deg);
+      transform-origin: 0 100%;
+      animation: checkbox-check 125ms 250ms cubic-bezier(.4,.0,.23,1) forwards;
+    }
+
+    span.checkbox{
+      background-color: gold;
+    }
+
+    span.label::before{
+      height: 0;
+    }
+  }
+
+  label.group{
+    position: relative;
+    display: flex ;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    span.checkbox{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1em;
+      width: 1em;
+      height: 1em;
+      background: transparent;
+      border: 2px solid #9E9E9E;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 250ms cubic-bezier(.4,.0,.23,1);
+    }
+
+    span.label{
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      font-size: 30px;
+      cursor: pointer;
+      color: gold;
+      margin-left: 10px;
+    }
+
+    span.label::before{
+      content: attr(data-text);
+      position: absolute;
+      overflow: hidden;
+      height: 40px;
+      color: rgba(255, 255, 255, 0.81);
+      left: 0;
+      top: 0;
+      transition: all 0.2s linear;
+    }
+
+    span.label:hover::before{
+      color: #fff;
+    }
+
+    &:hover span.checkbox{
+      background-color: rgba(255,255,255,0.1);
+    }
+  }
+}
+
+@keyframes checkbox-check{
+  0%{
+    width: 0;
+    height: 0;
+    border-color: #212121;
+    transform: translate3d(0,0,0) rotate(45deg);
+  }
+  33%{
+    width: .2em;
+    height: 0;
+    transform: translate3d(0,0,0) rotate(45deg);
+  }
+  100%{
+    width: .2em;
+    height: .5em;
+    border-color: #212121;
+    transform: translate3d(0,-.5em,0) rotate(45deg);
+  }
+}
