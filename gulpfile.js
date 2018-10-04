@@ -7,7 +7,7 @@ let livereload = require('gulp-livereload');
 let autoprefixer = require('gulp-autoprefixer');
 
 
-gulp.task('default', ['sass', 'sass:watch', 'auto-prefixer', 'auto-prefixer:watch', 'serve']);
+gulp.task('default', ['sass', 'sass:watch', 'auto-prefixer', 'serve']);
 
 gulp.task('serve', function () {
     gulp.src('app')
@@ -42,6 +42,6 @@ gulp.task('auto-prefixer', function () {
         .pipe(gulp.dest('./app/static/css/'))
 });
 
-gulp.task('auto-prefixer:watch', function () {
+gulp.task('auto-prefixer', function () {
     gulp.watch('./app/static/css/**/*.css', ['auto-prefixer'])
 });
