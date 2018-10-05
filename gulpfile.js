@@ -18,6 +18,8 @@ gulp.task('serve', function () {
     gulp.watch("app/**/*.html").on('change', browserSync.reload);
 });
 
+gulp.task('build', function () {});
+
 gulp.task('css', function () {
     let plugins = [
         autoprefixer({
