@@ -1,47 +1,35 @@
 let gulp = require('gulp');
-var webserver = require('gulp-webserver');
+let postcss = require('gulp-postcss');
+let browserSync = require('browser-sync').create();
 
 let sass = require('gulp-sass');
 let sourcemaps = require('gulp-sourcemaps');
-let livereload = require('gulp-livereload');
-let autoprefixer = require('gulp-autoprefixer');
+let autoprefixer = require('autoprefixer');
 
 
-gulp.task('default', ['sass', 'sass:watch', 'auto-prefixer', 'serve']);
+gulp.task('serve', ['serve', 'css']);
 
 gulp.task('serve', function () {
-    gulp.src('app')
-        .pipe(webserver({
-            livereload: true,
-            directoryListing: {
-                enable: true,
-                path: 'app',
-            },
-            open: 'index.html',
-        }));
+    browserSync.init({
+        server: "./app"
+    });
+
+    gulp.watch("./dev/assets/scss/**/*.scss", ['css']);
+    gulp.watch("app/**/*.html").on('change', browserSync.reload);
 });
 
-gulp.task('sass', function () {
+gulp.task('css', function () {
+    let plugins = [
+        autoprefixer({
+            browsers: ['last 1 version'],
+            cascade: true
+        })
+    ];
     return gulp.src('./dev/assets/scss/**/*.scss')
+        .pipe(postcss(plugins))
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./app/static/css/'));
-});
-
-gulp.task('sass:watch', function () {
-    gulp.watch('./dev/assets/scss/**/*.scss', ['sass']);
-});
-
-gulp.task('auto-prefixer', function () {
-    gulp.src('./app/static/css/**/*.css')
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: true
-        }))
         .pipe(gulp.dest('./app/static/css/'))
-});
-
-gulp.task('auto-prefixer', function () {
-    gulp.watch('./app/static/css/**/*.css', ['auto-prefixer'])
+        .pipe(browserSync.stream());
 });
