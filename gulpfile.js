@@ -23,7 +23,7 @@ gulp.task('build', function () {});
 gulp.task('css', function () {
     let plugins = [
         autoprefixer({
-            browsers: ['last 1 version'],
+            browsers: ['last 2 version'],
             cascade: true
         })
     ];
